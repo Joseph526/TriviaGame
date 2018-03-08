@@ -1,3 +1,11 @@
+body {
+    background: url("../images/10375810-colorful-grunge-fresco-painted-tuscany-wall-background.jpg");
+}
+
 #gameContainer {
     background-color: lightcyan;
+}
+
+#timerDiv {
+    background-color: lemonchiffon;
 }
