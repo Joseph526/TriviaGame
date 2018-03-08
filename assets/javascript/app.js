@@ -43,7 +43,7 @@ $(document).ready(function () {
             correctAns: "d"
         },
         {
-            que: "Who is a famous American painter?",
+            que: "Who was a famous American painter?",
             ans: {
                 a: "Paul Cezanne",
                 b: "Andrew Wyeth",
@@ -65,7 +65,7 @@ $(document).ready(function () {
 
     // Function to start timer and show question
     function startGame() {
-        timeLimit = 5;
+        timeLimit = 20;
         showQuestion();
         // Display initial value of countdown timer
         $("#timerDiv").html("<h4>Time remaining: " + timeLimit + " seconds</h4>");
@@ -99,10 +99,10 @@ $(document).ready(function () {
     // Function to display question and answers
     function showQuestion() {
         var printQuestion = $("<div>").text(questions[i].que);
-        var printAnsA = $("<div>").text("a: " + questions[i].ans.a).addClass("answer").attr("data-ans", "a");
-        var printAnsB = $("<div>").text("b: " + questions[i].ans.b).addClass("answer").attr("data-ans", "b");
-        var printAnsC = $("<div>").text("c: " + questions[i].ans.c).addClass("answer").attr("data-ans", "c");
-        var printAnsD = $("<div>").text("d: " + questions[i].ans.d).addClass("answer").attr("data-ans", "d");
+        var printAnsA = $("<div>").text("(a) " + questions[i].ans.a).addClass("answer").attr("data-ans", "a");
+        var printAnsB = $("<div>").text("(b) " + questions[i].ans.b).addClass("answer").attr("data-ans", "b");
+        var printAnsC = $("<div>").text("(c) " + questions[i].ans.c).addClass("answer").attr("data-ans", "c");
+        var printAnsD = $("<div>").text("(d) " + questions[i].ans.d).addClass("answer").attr("data-ans", "d");
         $("#quesDiv").html(printQuestion);
         $("#ansDiv1").html(printAnsA);
         $("#ansDiv2").html(printAnsB);
@@ -115,6 +115,10 @@ $(document).ready(function () {
     $(document).on("click", ".answer", evaluateAns);
     function evaluateAns() {
         var ansClicked = $(this).attr("data-ans");
+        $("#ansDiv1").html("&nbsp");
+        $("#ansDiv2").html("&nbsp");
+        $("#ansDiv3").html("You chose: " + $(this).text());
+        $("#ansDiv4").html("&nbsp");
         if (ansClicked === questions[i].correctAns) {
             displayCorrect();
         }
@@ -140,14 +144,28 @@ $(document).ready(function () {
         nextQuestion();
     }
 
-    // Display final scores at game end
+    // Function to display final scores at game end
     function displayFinalScore() {
         $("#quesDiv").html("You finished the game!");
         $("#ansDiv1").html("Correct answers: " + totalCorrect);
         $("#ansDiv2").html("Incorrect answers: " + totalIncorrect);
         $("#ansDiv3").html("Unanswered: " + totalUnanswer);
         $("#ansDiv4").html("&nbsp");
-        $("#resultDiv").html("<em>Thanks for playing!</em>");
+        var resetButton = $("<button>");
+        resetButton.text("Play Again").attr("id", "callResetGame")
+        $("#resultDiv").html(resetButton);
+    }
+
+    // Listen for button click to reset game
+    $(document).on("click", "#callResetGame", resetGame);
+
+    // Function to reset game
+    function resetGame() {
+        i = 0;
+        totalCorrect = 0;
+        totalIncorrect = 0;
+        totalUnanswer = 0;
+        startGame();
     }
 
     // Listen for button click to start game
